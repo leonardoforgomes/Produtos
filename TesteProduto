@@ -1,0 +1,41 @@
+package streams;
+
+import java.text.DecimalFormat;
+import java.util.Arrays;
+import java.util.List;
+import java.util.function.Function;
+import java.util.function.Predicate;
+
+public class TesteProduto {
+	
+	public static void main(String[] args) {
+		
+		Produto p1 = new Produto("Notebook", 3500, 0.20, 0);
+		Produto p2 = new Produto("TV LG 55 Polegadas", 6750.89, 0.20, 0);
+		Produto p3 = new Produto("Apple Iphone 13 128 GB", 8500, 0.30, 0);
+		Produto p4 = new Produto("Monitor LG Ultrawide 30'", 800, 0.35, 0);
+		Produto p5 = new Produto("Caixa de Som JBL Boombox", 2789.10, 0.30, 0);
+		
+		List<Produto> produtos = 
+				Arrays.asList(p1,p2, p3, p4, p5);
+		
+		//Filter, map
+		Predicate<Produto> superPromocao = p -> p.desconto >= 0.3;
+		Predicate<Produto> freteGratis = p -> p.frete == 0;
+		Predicate<Produto> produtoRelevante = p -> p.preco >= 800;
+		
+		Function<Produto, String> comunicadoFinal = 
+				p -> "Aproveite! " + p.nomeProduto + " por R$" + new DecimalFormat("#0.00").format(p.preco);
+				
+				
+			produtos.stream()
+				.filter(superPromocao)
+				.filter(freteGratis)
+				.filter(produtoRelevante)
+				.map(comunicadoFinal)
+				.forEach(System.out::println);
+				// Utilizando o forEach para acabar a sequencia de execução 
+				
+	}
+
+}
